@@ -24,7 +24,6 @@ flight
 aircraft
 airfare
 flight
-airline
 flight
 ground_service
 flight
@@ -221,7 +220,6 @@ flight
 flight
 ground_service
 flight
-abbreviation
 flight
 flight
 ground_service
@@ -825,7 +823,6 @@ ground_fare
 flight
 airfare
 flight
-abbreviation
 aircraft
 flight
 aircraft
@@ -935,11 +932,6 @@ flight
 flight
 flight
 flight
-ground_service
-flight
-flight
-flight
-flight
 quantity
 flight
 flight
@@ -957,7 +949,6 @@ flight
 flight
 aircraft
 flight_time
-flight
 airfare
 flight_no
 flight
