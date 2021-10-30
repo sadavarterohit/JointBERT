@@ -35,7 +35,7 @@ class JointBERT(BertPreTrainedModel):
                 intent_loss_fct = nn.MSELoss()
                 intent_loss = intent_loss_fct(intent_logits.view(-1), intent_label_ids.view(-1))
             else:
-                intent_loss_fct = nn.BCEWithLogitsLoss()
+                intent_loss_fct = nn.CrossEntropyLoss()
                 intent_loss = intent_loss_fct(intent_logits.view(-1, self.num_intent_labels), intent_label_ids.view(-1))
             total_loss += intent_loss
 
