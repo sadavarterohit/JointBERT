@@ -194,7 +194,7 @@ def convert_examples_to_features(examples, max_seq_len, tokenizer,
         assert len(token_type_ids) == max_seq_len, "Error with token type length {} vs {}".format(len(token_type_ids), max_seq_len)
         assert len(slot_labels_ids) == max_seq_len, "Error with slot labels length {} vs {}".format(len(slot_labels_ids), max_seq_len)
 
-        intent_label_id = int(example.intent_label)
+        intent_label_id = list(map(int,example.intent_label))
 
         if ex_index < 5:
             logger.info("*** Example ***")
@@ -203,7 +203,7 @@ def convert_examples_to_features(examples, max_seq_len, tokenizer,
             logger.info("input_ids: %s" % " ".join([str(x) for x in input_ids]))
             logger.info("attention_mask: %s" % " ".join([str(x) for x in attention_mask]))
             logger.info("token_type_ids: %s" % " ".join([str(x) for x in token_type_ids]))
-            logger.info("intent_label: %s (id = %d)" % (example.intent_label, intent_label_id))
+            logger.info("intent_label: %s " % " ".join([str(x) for x in intent_label_id]))
             logger.info("slot_labels: %s" % " ".join([str(x) for x in slot_labels_ids]))
 
         features.append(
