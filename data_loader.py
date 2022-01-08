@@ -257,7 +257,7 @@ def load_and_cache_examples(args, tokenizer, mode):
     all_input_ids = torch.tensor([f.input_ids for f in features], dtype=torch.long)
     all_attention_mask = torch.tensor([f.attention_mask for f in features], dtype=torch.long)
     all_token_type_ids = torch.tensor([f.token_type_ids for f in features], dtype=torch.long)
-    all_intent_label_ids = torch.tensor([f.intent_label_id for f in features], dtype=torch.long)
+    all_intent_label_ids = torch.tensor([f.intent_label_id for f in features], dtype=torch.float)
     all_slot_labels_ids = torch.tensor([f.slot_labels_ids for f in features], dtype=torch.long)
 
     dataset = TensorDataset(all_input_ids, all_attention_mask,
