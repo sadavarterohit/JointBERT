@@ -101,7 +101,6 @@ class JointProcessor(object):
 
             assert len(words) == len(slot_labels)
             examples.append(InputExample(guid=guid, words=words, intent_label=intent_label, slot_labels=slot_labels))
-        print(examples)
         return examples
 
     def get_examples(self, mode):
