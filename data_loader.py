@@ -93,7 +93,15 @@ class JointProcessor(object):
             # 1. input_text
             words = text.split()  # Some are spaced twice
             # 2. intent
-            intent_label = self.intent_labels.index(intent) if intent in self.intent_labels else self.intent_labels.index("UNK")
+            intent = intent.split('+')
+            intent_label = []
+            for i in intent:
+                if intent in self.intent_labels:
+                    intent_label.append(self.intent_labels.index(intent))
+                else:
+                    self.intent_labels.index("UNK")
+            print(intent_label)
+            #intent_label = self.intent_labels.index(intent) if intent in self.intent_labels else self.intent_labels.index("UNK")
             # 3. slot
             slot_labels = []
             for s in slot.split():

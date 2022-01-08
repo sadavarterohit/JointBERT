@@ -1,10 +1,10 @@
 UNK
 abbreviation
 aircraft
-aircraft#flight#flight_no
+aircraft#flight+flight_no
 airfare
 airline
-airline#flight_no
+airline+flight_no
 airport
 capacity
 cheapest
