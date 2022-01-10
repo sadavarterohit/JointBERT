@@ -66,26 +66,27 @@ def compute_metrics(intent_preds, intent_labels, slot_preds, slot_labels):
 
 def get_slot_metrics(preds, labels):
     assert len(preds) == len(labels)
-    p,r,f = precision_recall_fscore_support(labels, preds, average='macro')
+    
     return {
-        "slot_precision": p,
-        "slot_recall": r,
-        "slot_f1": f
+        "slot_precision": precision_score(labels, preds),
+        "slot_recall": recall_score(labels, preds),
+        "slot_f1": f1_score(labels, preds)
     }
-    # return {
-    #     "slot_precision": precision_score(labels, preds),
-    #     "slot_recall": recall_score(labels, preds),
-    #     "slot_f1": f1_score(labels, preds)
-    # }
 
 
 def get_intent_acc(preds, labels):
+    p,r,f = precision_recall_fscore_support(labels, preds, average='macro') 
     assert len(preds) == len(labels)
     return {
-        "intent_precision": float_precision_score(labels, preds),
-        "intent_recall": float_recall_score(labels, preds),
-        "intent_f1": float_f1_score(labels, preds)
+        "intent_precision": p,
+        "intent_recall": r,
+        "intent_f1": f
     }
+    # return {
+    #     "intent_precision": float_precision_score(labels, preds),
+    #     "intent_recall": float_recall_score(labels, preds),
+    #     "intent_f1": float_f1_score(labels, preds)
+    # }
 
 def float_precision_score(labels, preds):
     pass
