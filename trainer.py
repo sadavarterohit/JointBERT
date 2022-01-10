@@ -7,7 +7,7 @@ import torch
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from transformers import BertConfig, AdamW, get_linear_schedule_with_warmup
 
-from utils import MODEL_CLASSES, compute_metrics, get_intent_labels, get_slot_labels
+from utils import MODEL_CLASSES, compute_metrics, get_intent_labels, get_slot_labels, one_hot
 
 logger = logging.getLogger(__name__)
 
@@ -188,8 +188,10 @@ class Trainer(object):
         }
 
         # Intent result
-        intent_preds = np.argmax(intent_preds, axis=1)
-
+        #intent_preds = np.argmax(intent_preds, axis=1)
+        for i in range(len(intent_preds)):
+            intent_preds[i] = list(map(one_hot, intent_preds[i]))
+    
         # Slot result
         if not self.args.use_crf:
             slot_preds = np.argmax(slot_preds, axis=2)

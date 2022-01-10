@@ -7,7 +7,7 @@ import numpy as np
 import torch
 from torch.utils.data import TensorDataset, DataLoader, SequentialSampler
 
-from utils import init_logger, load_tokenizer, get_intent_labels, get_slot_labels, MODEL_CLASSES
+from utils import init_logger, load_tokenizer, get_intent_labels, get_slot_labels, MODEL_CLASSES, one_hot
 
 logger = logging.getLogger(__name__)
 
@@ -181,8 +181,9 @@ def predict(pred_config):
                 else:
                     slot_preds = np.append(slot_preds, slot_logits.detach().cpu().numpy(), axis=0)
                 all_slot_label_mask = np.append(all_slot_label_mask, batch[3].detach().cpu().numpy(), axis=0)
-
-    intent_preds = np.argmax(intent_preds, axis=1)
+    
+    for i in range(len(intent_preds)):
+      intent_preds[i] = list(map(one_hot, intent_preds[i]))
 
     if not args.use_crf:
         slot_preds = np.argmax(slot_preds, axis=2)
@@ -197,17 +198,15 @@ def predict(pred_config):
 
     # Write to output file
     with open(pred_config.output_file, "w", encoding="utf-8") as f:
-        print(slot_preds_list)
         for words, slot_preds, intent_pred in zip(lines, slot_preds_list, intent_preds):
-            
             line = ""
             for word, pred in zip(words, slot_preds):
                 if pred == 'O':
-                    line = line + "O,"
+                    line = line + word + " "
                 else:
-                    line = line + pred +","
-            line = line[:-1]
-            f.write("{}\n".format(line.strip()))
+                    line = line + "[{}:{}] ".format(word, pred)
+            print(intent_pred)
+            #f.write("<{}> -> {}\n".format(intent_label_lst[intent_pred], line.strip()))
 
     logger.info("Prediction Done!")
 
@@ -218,7 +217,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--input_file", default="sample_pred_in.txt", type=str, help="Input file for prediction")
     parser.add_argument("--output_file", default="sample_pred_out.txt", type=str, help="Output file for prediction")
-    parser.add_argument("--model_dir", default="../atis_model", type=str, help="Path to save, load model")
+    parser.add_argument("--model_dir", default="./atis_model", type=str, help="Path to save, load model")
 
     parser.add_argument("--batch_size", default=32, type=int, help="Batch size for prediction")
     parser.add_argument("--no_cuda", action="store_true", help="Avoid using CUDA when available")

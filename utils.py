@@ -8,7 +8,7 @@ from seqeval.metrics import precision_score, recall_score, f1_score
 
 from transformers import BertConfig, DistilBertConfig, AlbertConfig
 from transformers import BertTokenizer, DistilBertTokenizer, AlbertTokenizer
-
+from sklearn.metrics import precision_recall_fscore_support
 from model import JointBERT, JointDistilBERT, JointAlbert
 
 MODEL_CLASSES = {
@@ -66,18 +66,35 @@ def compute_metrics(intent_preds, intent_labels, slot_preds, slot_labels):
 
 def get_slot_metrics(preds, labels):
     assert len(preds) == len(labels)
+    p,r,f = precision_recall_fscore_support(labels, preds, average='macro')
     return {
-        "slot_precision": precision_score(labels, preds),
-        "slot_recall": recall_score(labels, preds),
-        "slot_f1": f1_score(labels, preds)
+        "slot_precision": p,
+        "slot_recall": r,
+        "slot_f1": f
     }
+    # return {
+    #     "slot_precision": precision_score(labels, preds),
+    #     "slot_recall": recall_score(labels, preds),
+    #     "slot_f1": f1_score(labels, preds)
+    # }
 
 
 def get_intent_acc(preds, labels):
-    acc = (preds == labels).mean()
+    assert len(preds) == len(labels)
     return {
-        "intent_acc": acc
+        "intent_precision": float_precision_score(labels, preds),
+        "intent_recall": float_recall_score(labels, preds),
+        "intent_f1": float_f1_score(labels, preds)
     }
+
+def float_precision_score(labels, preds):
+    pass
+
+def float_recall_score(labels, preds):
+    pass
+
+def float_f1_score(labels, preds):
+    pass
 
 
 def read_prediction_text(args):
@@ -105,3 +122,10 @@ def get_sentence_frame_acc(intent_preds, intent_labels, slot_preds, slot_labels)
     return {
         "sementic_frame_acc": sementic_acc
     }
+
+
+def one_hot(x):
+    if(x>0.75):
+        return 1
+    else:
+        return 0
