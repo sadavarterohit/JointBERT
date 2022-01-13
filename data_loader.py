@@ -93,7 +93,7 @@ class JointProcessor(object):
             # 1. input_text
             words = text.split()  # Some are spaced twice
             # 2. intent
-            intent = intent.split('+')
+            intent = intent.split('#')
             #print(intent)
             intent_label = [0] * len(self.intent_labels)
             #print(intent_label)
