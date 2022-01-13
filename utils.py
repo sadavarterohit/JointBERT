@@ -53,7 +53,7 @@ def set_seed(args):
 def compute_metrics(intent_preds, intent_labels, slot_preds, slot_labels):
     assert len(intent_preds) == len(intent_labels) == len(slot_preds) == len(slot_labels)
     results = {}
-    #intent_result = get_intent_acc(intent_preds, intent_labels)
+    get_intent_acc(intent_preds, intent_labels)
     slot_result = get_slot_metrics(slot_preds, slot_labels)
     #sementic_result = get_sentence_frame_acc(intent_preds, intent_labels, slot_preds, slot_labels)
 
@@ -76,20 +76,7 @@ def get_slot_metrics(preds, labels):
 
 def get_intent_acc(preds, labels):
     print(classification_report(labels, preds))
-    # return {
-    #     "intent_precision": float_precision_score(labels, preds),
-    #     "intent_recall": float_recall_score(labels, preds),
-    #     "intent_f1": float_f1_score(labels, preds)
-    # }
-
-def float_precision_score(labels, preds):
-    pass
-
-def float_recall_score(labels, preds):
-    pass
-
-def float_f1_score(labels, preds):
-    pass
+    
 
 
 def read_prediction_text(args):
