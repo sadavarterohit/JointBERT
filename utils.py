@@ -8,7 +8,7 @@ from seqeval.metrics import precision_score, recall_score, f1_score
 
 from transformers import BertConfig, DistilBertConfig, AlbertConfig
 from transformers import BertTokenizer, DistilBertTokenizer, AlbertTokenizer
-from sklearn.metrics import precision_recall_fscore_support
+from sklearn.metrics import classification_report
 from model import JointBERT, JointDistilBERT, JointAlbert
 
 MODEL_CLASSES = {
@@ -53,13 +53,13 @@ def set_seed(args):
 def compute_metrics(intent_preds, intent_labels, slot_preds, slot_labels):
     assert len(intent_preds) == len(intent_labels) == len(slot_preds) == len(slot_labels)
     results = {}
-    intent_result = get_intent_acc(intent_preds, intent_labels)
+    #intent_result = get_intent_acc(intent_preds, intent_labels)
     slot_result = get_slot_metrics(slot_preds, slot_labels)
-    sementic_result = get_sentence_frame_acc(intent_preds, intent_labels, slot_preds, slot_labels)
+    #sementic_result = get_sentence_frame_acc(intent_preds, intent_labels, slot_preds, slot_labels)
 
-    results.update(intent_result)
+    #results.update(intent_result)
     results.update(slot_result)
-    results.update(sementic_result)
+    #results.update(sementic_result)
 
     return results
 
@@ -75,13 +75,7 @@ def get_slot_metrics(preds, labels):
 
 
 def get_intent_acc(preds, labels):
-    p,r,f = precision_recall_fscore_support(labels, preds, average='macro') 
-    assert len(preds) == len(labels)
-    return {
-        "intent_precision": p,
-        "intent_recall": r,
-        "intent_f1": f
-    }
+    print(classification_report(labels, preds))
     # return {
     #     "intent_precision": float_precision_score(labels, preds),
     #     "intent_recall": float_recall_score(labels, preds),
