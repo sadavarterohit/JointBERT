@@ -239,8 +239,8 @@ def load_and_cache_examples(args, tokenizer, mode):
         logger.info("Creating features from dataset file at %s", args.data_dir)
         if mode == "train":
             examples = processor.get_examples("train")
-        elif mode == "dev":
-            examples = processor.get_examples("dev")
+        #elif mode == "dev":
+        #    examples = processor.get_examples("dev")
         elif mode == "test":
             examples = processor.get_examples("test")
         else:
