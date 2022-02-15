@@ -121,7 +121,7 @@ class Trainer(object):
         if mode == 'test':
             dataset = self.test_dataset
         elif mode == 'dev':
-            dataset = self.dev_dataset
+            dataset = self.test_dataset
         else:
             raise Exception("Only dev and test dataset available")
 
